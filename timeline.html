@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>时光轴 - 毕业回忆胶囊</title>
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            padding-top: 76px;
+        }
+
+        .page-header {
+            background-color: var(--light-color);
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .page-title {
+            margin-bottom: 1rem;
+        }
+
+        .page-description {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #666;
+        }
+
+        /* 时光轴页面特有样式 */
+        .timeline-wrapper {
+            padding: 2rem 0 5rem;
+        }
+
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .year-divider {
+            text-align: center;
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .year-divider::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background-color: #ddd;
+            top: 50%;
+            left: 0;
+            z-index: -1;
+        }
+
+        .year-label {
+            display: inline-block;
+            padding: 0.5rem 2rem;
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-img {
+            max-width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-add-event {
+            margin-top: 4rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="public/images/logo.png" alt="Logo" class="nav-logo" id="nav-logo">
+                <span class="site-name">毕业回忆胶囊</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gallery.html">照片墙</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="timeline.html">时光轴</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blessings.html">祝福留言</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="stories.html">我们的故事</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">关于我们</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面标题 -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title" data-aos="fade-up">时光轴</h1>
+            <p class="page-description" data-aos="fade-up" data-aos-delay="100">
+                从新生报到到毕业典礼，这里记录着我们大学生活中的每一个重要时刻。时光飞逝，回忆永存。</p>
+        </div>
+    </header>
+
+    <!-- 时光轴主体 -->
+    <section class="timeline-wrapper">
+        <div class="container">
+            <!-- 动态加载的时光轴将显示在这里 -->
+            <div class="timeline" id="dynamic-timeline">
+                <!-- 时光轴内容将通过JavaScript从data.js动态加载 -->
+            </div>
+
+            <!-- 添加新事件 -->
+            <div class="timeline-add-event" data-aos="fade-up">
+                <p class="mb-3">还有重要的时刻想要记录？</p>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEventModal">添加新事件</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 添加新事件模态框 -->
+    <div class="modal fade" id="addEventModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">添加新事件</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="eventForm">
+                        <div class="mb-3">
+                            <label for="eventTitle" class="form-label">事件标题 *</label>
+                            <input type="text" class="form-control" id="eventTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventDate" class="form-label">事件日期 *</label>
+                            <input type="date" class="form-control" id="eventDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventDescription" class="form-label">事件描述 *</label>
+                            <textarea class="form-control" id="eventDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventPhoto" class="form-label">事件照片 *</label>
+                            <input type="file" class="form-control" id="eventPhoto" accept="image/*" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="submitEvent">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <h3>毕业回忆胶囊</h3>
+                    <p>时光不散，青春永驻</p>
+                    <p>一个永久保存我们青春回忆的地方</p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="gallery.html">照片墙</a></li>
+                        <li><a href="timeline.html">时光轴</a></li>
+                        <li><a href="blessings.html">祝福留言</a></li>
+                        <li><a href="stories.html">我们的故事</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h3>联系我们</h3>
+                    <p>有任何问题或建议，请联系网站管理员</p>
+                    <p><i class="fas fa-envelope"></i> admin@example.com</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 毕业回忆胶囊 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" title="返回顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/js/all.min.js"></script>
+    <script src="public/js/data.js"></script>
+    <script src="public/js/main.js"></script>
+    <script>
+        // 添加事件提交
+        document.getElementById('submitEvent').addEventListener('click', function () {
+            const title = document.getElementById('eventTitle').value;
+            const date = document.getElementById('eventDate').value;
+            const description = document.getElementById('eventDescription').value;
+            const photo = document.getElementById('eventPhoto').files[0];
+
+            if (!title || !date || !description || !photo) {
+                alert('请填写所有必填字段');
+                return;
+            }
+
+            // 格式化日期显示
+            const eventDate = new Date(date);
+            const formattedDate = `${eventDate.getFullYear()}年${eventDate.getMonth() + 1}月${eventDate.getDate()}日`;
+
+            // 使用data.js中的辅助函数添加新事件
+            // 注意：这里使用一个默认图像URL替代实际上传
+            const dummyImageUrl = 'public/images/timeline-1.jpg';
+            websiteData.helpers.addTimelineEvent(title, formattedDate, description, dummyImageUrl);
+
+            // 重新渲染时间轴
+            renderTimeline();
+
+            alert('事件已提交，审核通过后将显示在时光轴上');
+
+            // 关闭模态框
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
+            modal.hide();
+
+            // 清空表单
+            document.getElementById('eventForm').reset();
+        });
+
+        // 从data.js中加载并渲染时间轴
+        function renderTimeline() {
+            const timelineContainer = document.getElementById('dynamic-timeline');
+            if (!timelineContainer || !websiteData.timelineData) return;
+
+            // 清空容器
+            timelineContainer.innerHTML = '';
+
+            // 按照年份对事件进行分组
+            const eventsByYear = {};
+            websiteData.timelineData.forEach(event => {
+                const year = event.date.split('年')[0] + '年';
+                if (!eventsByYear[year]) {
+                    eventsByYear[year] = [];
+                }
+                eventsByYear[year].push(event);
+            });
+
+            // 按年份排序（降序）
+            const sortedYears = Object.keys(eventsByYear).sort((a, b) => {
+                return parseInt(b) - parseInt(a);
+            });
+
+            // 生成时间轴HTML
+            sortedYears.forEach(year => {
+                // 添加年份分隔符
+                const yearDivider = document.createElement('div');
+                yearDivider.className = 'year-divider';
+                yearDivider.setAttribute('data-aos', 'fade-up');
+                yearDivider.innerHTML = `<span class="year-label">${year}</span>`;
+                timelineContainer.appendChild(yearDivider);
+
+                // 添加该年份的所有事件
+                eventsByYear[year].forEach((event, index) => {
+                    const isLeft = index % 2 === 0;
+                    const timelineItem = document.createElement('div');
+                    timelineItem.className = `timeline-item timeline-${isLeft ? 'left' : 'right'}`;
+                    timelineItem.setAttribute('data-aos', isLeft ? 'fade-right' : 'fade-left');
+
+                    timelineItem.innerHTML = `
+                        <div class="timeline-content">
+                            <p class="timeline-date">${event.date}</p>
+                            <h3 class="timeline-title">${event.title}</h3>
+                            <p class="timeline-description">${event.content}</p>
+                            <div class="timeline-photos">
+                                <div class="timeline-photo">
+                                    <img src="${event.imageUrl}" alt="${event.title}">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    timelineContainer.appendChild(timelineItem);
+                });
+            });
+        }
+
+        // 页面加载完成后渲染时间轴
+        document.addEventListener('DOMContentLoaded', function () {
+            renderTimeline();
+
+            // 设置事件日期默认值为今天
+            const eventDateInput = document.getElementById('eventDate');
+            if (eventDateInput) {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                eventDateInput.value = `${year}-${month}-${day}`;
+
+                // 限制日期范围
+                eventDateInput.min = '2021-01-01';
+                eventDateInput.max = '2025-12-31';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们的故事 - 毕业回忆胶囊</title>
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600&display=swap"
+        rel="stylesheet">
+    <meta name="referrer" content="no-referrer">
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="public/images/logo.png" alt="Logo" class="nav-logo">
+                <span class="site-name">毕业回忆胶囊</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gallery.html">照片墙</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="timeline.html">时光轴</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blessings.html">祝福留言</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="stories.html">我们的故事</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="videos.html">视频回顾</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">关于我们</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面标题 -->
+    <div class="page-title-section">
+        <div class="container">
+            <h1 class="page-title" data-aos="fade-up">我们的故事</h1>
+            <p class="page-description" data-aos="fade-up" data-aos-delay="200">珍贵记忆，永远不会褪色</p>
+        </div>
+    </div>
+
+    <!-- 故事列表 -->
+    <section class="stories-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div id="dynamic-stories" class="stories-list">
+                        <!-- 故事内容将从data.js动态加载 -->
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="stories-sidebar">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">分享你的故事</h5>
+                                <p class="card-text">有想与大家分享的回忆或故事吗？点击下方按钮分享你的故事。</p>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStoryModal">
+                                    <i class="fas fa-pen me-2"></i>写故事
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">故事分类</h5>
+                                <div class="story-categories">
+                                    <a href="#" class="story-category active" data-category="all">全部故事</a>
+                                    <a href="#" class="story-category" data-category="classroom">课堂趣事</a>
+                                    <a href="#" class="story-category" data-category="activity">活动回忆</a>
+                                    <a href="#" class="story-category" data-category="friendship">同窗友谊</a>
+                                    <a href="#" class="story-category" data-category="teacher">师生情谊</a>
+                                    <a href="#" class="story-category" data-category="other">其他故事</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">热门故事</h5>
+                                <div id="popular-stories">
+                                    <!-- 热门故事将从data.js动态加载 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 添加故事模态框 -->
+    <div class="modal fade" id="addStoryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">分享你的故事</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="storyForm">
+                        <div class="mb-3">
+                            <label for="storyTitle" class="form-label">标题 *</label>
+                            <input type="text" class="form-control" id="storyTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="authorName" class="form-label">作者 *</label>
+                            <input type="text" class="form-control" id="authorName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="storyCategory" class="form-label">分类</label>
+                            <select class="form-select" id="storyCategory">
+                                <option value="classroom">课堂趣事</option>
+                                <option value="activity">活动回忆</option>
+                                <option value="friendship">同窗友谊</option>
+                                <option value="teacher">师生情谊</option>
+                                <option value="other">其他故事</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="storyContent" class="form-label">故事内容 *</label>
+                            <textarea class="form-control" id="storyContent" rows="8" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="storyImage" class="form-label">相关图片 (可选)</label>
+                            <input type="file" class="form-control" id="storyImage" accept="image/*">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="submitStory">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <h3>毕业回忆胶囊</h3>
+                    <p>时光不散，青春永驻</p>
+                    <p>一个永久保存我们青春回忆的地方</p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="gallery.html">照片墙</a></li>
+                        <li><a href="timeline.html">时光轴</a></li>
+                        <li><a href="blessings.html">祝福留言</a></li>
+                        <li><a href="videos.html">视频回顾</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h3>联系我们</h3>
+                    <p>有任何问题或建议，请联系网站管理员</p>
+                    <p><i class="fas fa-envelope"></i> <span id="admin-email">admin@example.com</span></p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 毕业回忆胶囊 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" title="返回顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/js/all.min.js"></script>
+    <script src="public/js/data.js"></script>
+
+    <script>
+        // 初始化AOS动画
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // 更新页面标题
+        document.title = `我们的故事 - ${websiteData.siteTitle || '毕业回忆胶囊'}`;
+
+        // 更新管理员邮箱
+        if (websiteData.adminEmail) {
+            document.getElementById('admin-email').textContent = websiteData.adminEmail;
+        }
+
+        // 确保storyData存在于websiteData中
+        if (!websiteData.storyData) {
+            websiteData.storyData = [];
+
+            // 初始化一些示例故事数据
+            if (websiteData.helpers && websiteData.helpers.addStory) {
+                websiteData.helpers.addStory(
+                    '青春不散场',
+                    '李明',
+                    '那年的毕业晚会，我们在操场上举办了一场盛大的篝火晚会。每个人都写下了自己的心愿，装进纸灯笼，然后一起放飞。看着那些灯笼缓缓上升，消失在夜空中，我们相信，总有一天，这些愿望都会实现。',
+                    'activity',
+                    'public/images/story-1.jpg',
+                    '2024-05-20',
+                    12
+                );
+
+                websiteData.helpers.addStory(
+                    '那些课堂上的小插曲',
+                    '张小华',
+                    '还记得物理课上，老师做实验时的那次小意外吗？整个教室都充满了烟雾，我们都被疏散到了操场上。虽然当时有点惊慌，但现在想起来，却是满满的欢笑。那位总是严肃的物理老师，第一次看到他那么狼狈的样子。',
+                    'classroom',
+                    'public/images/story-2.jpg',
+                    '2024-06-01',
+                    8
+                );
+            }
+        }
+
+        // 渲染故事列表
+        function renderStories(category = 'all') {
+            const storiesContainer = document.getElementById('dynamic-stories');
+            if (!storiesContainer) return;
+
+            // 清空容器
+            storiesContainer.innerHTML = '';
+
+            // 过滤故事
+            let filteredStories = [...websiteData.storyData];
+            if (category !== 'all') {
+                filteredStories = filteredStories.filter(story => story.category === category);
+            }
+
+            // 按日期排序（降序）
+            filteredStories.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // 渲染故事
+            if (filteredStories.length > 0) {
+                filteredStories.forEach(story => {
+                    const storyElement = document.createElement('div');
+                    storyElement.className = 'story-card';
+                    storyElement.setAttribute('data-aos', 'fade-up');
+
+                    let imageHtml = '';
+                    if (story.imageUrl) {
+                        imageHtml = `
+                            <div class="story-image">
+                                <img src="${story.imageUrl}" alt="${story.title}">
+                            </div>
+                        `;
+                    }
+
+                    storyElement.innerHTML = `
+                        ${imageHtml}
+                        <div class="story-content">
+                            <h3 class="story-title">${story.title}</h3>
+                            <div class="story-meta">
+                                <span class="story-author"><i class="fas fa-user"></i> ${story.author}</span>
+                                <span class="story-date"><i class="fas fa-calendar"></i> ${story.date}</span>
+                                <span class="story-category"><i class="fas fa-tag"></i> ${getCategoryName(story.category)}</span>
+                            </div>
+                            <div class="story-text">
+                                <p>${story.content}</p>
+                            </div>
+                            <div class="story-footer">
+                                <button class="btn btn-like" data-story-id="${story.id || 0}">
+                                    <i class="far fa-heart"></i> 喜欢 <span class="like-count">${story.likes || 0}</span>
+                                </button>
+                                <button class="btn btn-comment" data-story-id="${story.id || 0}">
+                                    <i class="far fa-comment"></i> 评论
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    storiesContainer.appendChild(storyElement);
+                });
+            } else {
+                storiesContainer.innerHTML = `
+                    <div class="no-stories">
+                        <p>暂无相关故事，快来分享你的故事吧！</p>
+                    </div>
+                `;
+            }
+
+            // 添加喜欢按钮事件
+            attachLikeEvents();
+        }
+
+        // 渲染热门故事
+        function renderPopularStories() {
+            const popularStoriesContainer = document.getElementById('popular-stories');
+            if (!popularStoriesContainer) return;
+
+            // 清空容器
+            popularStoriesContainer.innerHTML = '';
+
+            // 复制故事数组并按喜欢数排序
+            const sortedStories = [...websiteData.storyData].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+
+            // 取前3个故事
+            const popularStories = sortedStories.slice(0, 3);
+
+            if (popularStories.length > 0) {
+                popularStories.forEach(story => {
+                    const storyElement = document.createElement('div');
+                    storyElement.className = 'popular-story-item';
+
+                    storyElement.innerHTML = `
+                        <h6 class="popular-story-title">${story.title}</h6>
+                        <div class="popular-story-meta">
+                            <span class="popular-story-author">${story.author}</span>
+                            <span class="popular-story-likes"><i class="fas fa-heart"></i> ${story.likes || 0}</span>
+                        </div>
+                    `;
+
+                    popularStoriesContainer.appendChild(storyElement);
+                });
+            } else {
+                popularStoriesContainer.innerHTML = '<p>暂无热门故事</p>';
+            }
+        }
+
+        // 获取分类名称
+        function getCategoryName(category) {
+            const categories = {
+                'classroom': '课堂趣事',
+                'activity': '活动回忆',
+                'friendship': '同窗友谊',
+                'teacher': '师生情谊',
+                'other': '其他故事'
+            };
+            return categories[category] || '其他故事';
+        }
+
+        // 添加喜欢按钮事件
+        function attachLikeEvents() {
+            const likeButtons = document.querySelectorAll('.btn-like');
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const storyId = parseInt(this.getAttribute('data-story-id'));
+                    const story = websiteData.storyData.find(s => s.id === storyId);
+
+                    if (story) {
+                        story.likes = (story.likes || 0) + 1;
+                        this.querySelector('.like-count').textContent = story.likes;
+
+                        // 更新图标
+                        const heartIcon = this.querySelector('i');
+                        heartIcon.classList.remove('far');
+                        heartIcon.classList.add('fas');
+
+                        // 保存数据
+                        websiteData.helpers.saveDataToLocalStorage();
+
+                        // 更新热门故事
+                        renderPopularStories();
+                    }
+                });
+            });
+        }
+
+        // 处理分类点击事件
+        document.querySelectorAll('.story-category').forEach(category => {
+            category.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // 移除所有分类的active类
+                document.querySelectorAll('.story-category').forEach(c => c.classList.remove('active'));
+
+                // 给当前点击的分类添加active类
+                this.classList.add('active');
+
+                // 渲染对应分类的故事
+                const categoryValue = this.getAttribute('data-category');
+                renderStories(categoryValue);
+            });
+        });
+
+        // 处理故事提交
+        document.getElementById('submitStory').addEventListener('click', function () {
+            const title = document.getElementById('storyTitle').value;
+            const author = document.getElementById('authorName').value;
+            const content = document.getElementById('storyContent').value;
+            const category = document.getElementById('storyCategory').value;
+
+            if (!title || !author || !content) {
+                alert('请填写必填字段');
+                return;
+            }
+
+            // 格式化日期为当前日期
+            const today = new Date();
+            const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+            // 使用data.js中的辅助函数添加新故事
+            // 注意：这里使用一个默认图像URL替代实际上传
+            const dummyImageUrl = 'public/images/story-default.jpg';
+            websiteData.helpers.addStory(title, author, content, category, dummyImageUrl, formattedDate, 0);
+
+            // 重新渲染故事列表和热门故事
+            renderStories();
+            renderPopularStories();
+
+            // 关闭模态框
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addStoryModal'));
+            modal.hide();
+
+            alert('故事已成功提交！');
+
+            // 清空表单
+            document.getElementById('storyForm').reset();
+        });
+
+        // 页面加载完成后渲染故事
+        document.addEventListener('DOMContentLoaded', function () {
+            renderStories();
+            renderPopularStories();
+        });
+
+        // 返回顶部按钮功能
+        const backToTopButton = document.getElementById('back-to-top');
+        window.addEventListener('scroll', function () {
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+
+        backToTopButton.addEventListener('click', function () {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+
+</html>

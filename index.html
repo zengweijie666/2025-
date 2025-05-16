@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>时光不散，青春永驻 - 毕业回忆胶囊</title>
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="public/images/logo.png" alt="Logo" class="nav-logo" id="nav-logo">
+                <span class="site-name">毕业回忆胶囊</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gallery.html">照片墙</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="timeline.html">时光轴</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blessings.html">祝福留言</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="stories.html">我们的故事</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">关于我们</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero 区域 -->
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1 data-aos="fade-up" data-aos-delay="200">2025届毕业纪念</h1>
+            <p class="slogan" data-aos="fade-up" data-aos-delay="400">时光不散，青春永驻</p>
+            <div class="graduation-counter" data-aos="fade-up" data-aos-delay="600">
+                <div id="countdown-display">已毕业 <span id="days-counter">0</span> 天</div>
+            </div>
+        </div>
+        <div class="hero-overlay"></div>
+        <video autoplay muted loop class="hero-video d-none d-md-block">
+            <source src="public/images/graduation-video.mp4" type="video/mp4">
+        </video>
+        <img src="public/images/graduation-hero-mobile.jpg" alt="毕业照" class="hero-img d-md-none">
+    </header>
+
+    <!-- 快速入口模块 -->
+    <section class="quick-access">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6" data-aos="fade-up">
+                    <a href="gallery.html" class="quick-card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-images"></i>
+                        </div>
+                        <h3>照片墙</h3>
+                        <p>珍贵瞬间，永久珍藏</p>
+                    </a>
+                </div>
+                <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="100">
+                    <a href="timeline.html" class="quick-card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-hourglass-half"></i>
+                        </div>
+                        <h3>时光轴</h3>
+                        <p>青春岁月，点滴回顾</p>
+                    </a>
+                </div>
+                <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="200">
+                    <a href="blessings.html" class="quick-card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                        <h3>祝福墙</h3>
+                        <p>留言寄语，祝福未来</p>
+                    </a>
+                </div>
+                <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="300">
+                    <a href="stories.html" class="quick-card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3>我们的故事</h3>
+                        <p>班级回忆，青春笔记</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 推荐回忆模块 -->
+    <section class="featured-memory">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">今日推荐回忆</h2>
+            <div class="row">
+                <div class="col-md-8" data-aos="fade-right">
+                    <div class="featured-photo">
+                        <!-- 图片内容将从data.js动态加载 -->
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-left">
+                    <div class="featured-message">
+                        <div class="message-content">
+                            <!-- 留言内容将从data.js动态加载 -->
+                        </div>
+                        <a href="blessings.html" class="btn btn-outline-primary btn-sm mt-3">查看更多留言</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 毕业视频合集 -->
+    <section class="video-collection bg-light">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">精彩视频回顾</h2>
+            <div class="row">
+                <!-- 视频内容将从data.js动态加载 -->
+            </div>
+            <div class="text-center mt-4">
+                <a href="videos.html" class="btn btn-primary">查看全部视频</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 我们的足迹 -->
+    <section class="footprints">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">我们的足迹</h2>
+            <p class="section-subtitle" data-aos="fade-up">看看大家毕业后都去了哪里</p>
+            <div class="map-container" data-aos="zoom-in">
+                <div id="footprints-map"></div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="footprints.html" class="btn btn-outline-secondary">查看详情</a>
+                <button class="btn btn-primary ms-2" data-bs-toggle="modal"
+                    data-bs-target="#addLocationModal">添加我的位置</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 添加位置模态框 -->
+    <div class="modal fade" id="addLocationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">添加我的位置</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="locationForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">姓名 (选填)</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="city" class="form-label">城市 *</label>
+                            <input type="text" class="form-control" id="city" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">一句话 (选填)</label>
+                            <input type="text" class="form-control" id="message" placeholder="eg: 在这座城市追逐梦想">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="submitLocation">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <h3>毕业回忆胶囊</h3>
+                    <p>时光不散，青春永驻</p>
+                    <p>一个永久保存我们青春回忆的地方</p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="gallery.html">照片墙</a></li>
+                        <li><a href="timeline.html">时光轴</a></li>
+                        <li><a href="blessings.html">祝福留言</a></li>
+                        <li><a href="stories.html">我们的故事</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h3>联系我们</h3>
+                    <p>有任何问题或建议，请联系网站管理员</p>
+                    <p><i class="fas fa-envelope"></i> admin@example.com</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 毕业回忆胶囊 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" title="返回顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+    <script src="public/js/data.js"></script>
+    <script src="public/js/main.js"></script>
+</body>
+
+</html>

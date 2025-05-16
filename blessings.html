@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>祝福留言 - 毕业回忆胶囊</title>
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600&display=swap"
+        rel="stylesheet">
+    <meta name="referrer" content="no-referrer">
+    <style>
+        body {
+            padding-top: 76px;
+        }
+
+        .page-header {
+            background-color: var(--light-color);
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .page-title {
+            margin-bottom: 1rem;
+        }
+
+        .page-description {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #666;
+        }
+
+        /* 祝福点赞效果 */
+        .liked {
+            animation: like-animation 0.5s ease;
+            color: #e07a5f !important;
+        }
+
+        @keyframes like-animation {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* 时光信件特效 */
+        .time-letter {
+            background-color: #f8f9fa;
+            border-left: 3px solid var(--secondary-color);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .time-letter::after {
+            content: '时光信件';
+            position: absolute;
+            right: 0;
+            top: 10px;
+            background-color: var(--secondary-color);
+            color: #fff;
+            padding: 3px 10px;
+            font-size: 0.8rem;
+            transform: rotate(45deg) translateX(20px);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="public/images/logo.png" alt="Logo" class="nav-logo" id="nav-logo">
+                <span class="site-name">毕业回忆胶囊</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gallery.html">照片墙</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="timeline.html">时光轴</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="blessings.html">祝福留言</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="stories.html">我们的故事</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">关于我们</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面标题 -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title" data-aos="fade-up">祝福留言</h1>
+            <p class="page-description" data-aos="fade-up" data-aos-delay="100">
+                在这里写下你的祝福、感言或回忆，让我们的友谊和美好瞬间永远保存。你还可以写一封"时光信件"，在未来的某一天送达。</p>
+        </div>
+    </header>
+
+    <!-- 祝福留言主体 -->
+    <section class="blessings-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- 已有留言 -->
+                    <div class="blessings-container" id="dynamic-blessings">
+                        <!-- 祝福留言内容将通过JavaScript从data.js动态加载 -->
+                    </div>
+
+                    <!-- 加载更多按钮 -->
+                    <div class="text-center mt-4 mb-5" data-aos="fade-up">
+                        <button class="btn btn-outline-secondary">加载更多留言</button>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- 写留言表单 -->
+                    <div class="blessing-form" data-aos="fade-left">
+                        <h3 class="mb-4">写下你的祝福</h3>
+                        <form id="blessing-form">
+                            <div class="mb-3">
+                                <label for="blessing-name" class="form-label">你的名字 (选填)</label>
+                                <input type="text" class="form-control" id="blessing-name" placeholder="匿名同学">
+                            </div>
+                            <div class="mb-3">
+                                <label for="blessing-content" class="form-label">祝福内容 *</label>
+                                <textarea class="form-control" id="blessing-content" rows="5"
+                                    placeholder="在这里写下你的祝福、感言或回忆..." required></textarea>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="time-letter-check">
+                                <label class="form-check-label" for="time-letter-check">创建"时光信件"</label>
+                                <small class="form-text text-muted d-block">时光信件将在你指定的未来日期才能被查看</small>
+                            </div>
+                            <div class="mb-3 time-letter-options" style="display: none;">
+                                <label for="time-letter-date" class="form-label">解锁日期 *</label>
+                                <input type="date" class="form-control" id="time-letter-date">
+                                <small class="form-text text-muted">请选择未来的日期，系统将在该日期通过邮件通知收件人</small>
+                            </div>
+                            <div class="mb-3 time-letter-options" style="display: none;">
+                                <label for="recipient-email" class="form-label">收件人邮箱 (选填)</label>
+                                <input type="email" class="form-control" id="recipient-email"
+                                    placeholder="如不填写则默认发送给自己">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">提交留言</button>
+                        </form>
+                    </div>
+
+                    <!-- 留言统计 -->
+                    <div class="blessing-stats mt-4" data-aos="fade-left">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">留言统计</h5>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-comment-dots me-2"
+                                            style="color: var(--primary-color);"></i> 已收到 <strong>127</strong> 条祝福</li>
+                                    <li class="mb-2"><i class="fas fa-envelope me-2"
+                                            style="color: var(--secondary-color);"></i> 已收到 <strong>45</strong> 封时光信件
+                                    </li>
+                                    <li><i class="fas fa-heart me-2" style="color: var(--accent-color);"></i> 大家共送出
+                                        <strong>589</strong> 个赞
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <h3>毕业回忆胶囊</h3>
+                    <p>时光不散，青春永驻</p>
+                    <p>一个永久保存我们青春回忆的地方</p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="gallery.html">照片墙</a></li>
+                        <li><a href="timeline.html">时光轴</a></li>
+                        <li><a href="blessings.html">祝福留言</a></li>
+                        <li><a href="stories.html">我们的故事</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h3>联系我们</h3>
+                    <p>有任何问题或建议，请联系网站管理员</p>
+                    <p><i class="fas fa-envelope"></i> admin@example.com</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 毕业回忆胶囊 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" title="返回顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/js/all.min.js"></script>
+    <script src="public/js/data.js"></script>
+    <script src="public/js/main.js"></script>
+    <script>
+        // 时光信件选项显示/隐藏
+        document.getElementById('time-letter-check').addEventListener('change', function () {
+            const timeLetterOptions = document.querySelectorAll('.time-letter-options');
+            timeLetterOptions.forEach(option => {
+                option.style.display = this.checked ? 'block' : 'none';
+            });
+        });
+
+        // 表单提交
+        document.getElementById('blessing-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('blessing-name').value || '匿名同学';
+            const content = document.getElementById('blessing-content').value;
+
+            if (content.trim() === '') {
+                alert('请输入祝福内容');
+                return;
+            }
+
+            // 检查是否是时光信件
+            const isTimeLetter = document.getElementById('time-letter-check').checked;
+            let unlockDate = null;
+
+            if (isTimeLetter) {
+                unlockDate = document.getElementById('time-letter-date').value;
+                if (!unlockDate) {
+                    alert('请选择时光信件的解锁日期');
+                    return;
+                }
+
+                // 检查日期是否在未来
+                const today = new Date();
+                const selectedDate = new Date(unlockDate);
+                if (selectedDate <= today) {
+                    alert('请选择一个未来的日期');
+                    return;
+                }
+            }
+
+            // 使用data.js中的辅助函数添加祝福
+            websiteData.helpers.addBlessing(name, content);
+
+            // 重新渲染祝福留言
+            renderBlessings();
+
+            alert('祝福已提交，感谢你的留言！');
+            this.reset();
+            document.querySelectorAll('.time-letter-options').forEach(option => {
+                option.style.display = 'none';
+            });
+        });
+
+        // 从data.js加载并渲染祝福留言
+        function renderBlessings() {
+            const blessingsContainer = document.getElementById('dynamic-blessings');
+            if (!blessingsContainer || !websiteData.blessingData) return;
+
+            // 清空容器
+            blessingsContainer.innerHTML = '';
+
+            // 添加祝福留言
+            websiteData.blessingData.forEach((blessing, index) => {
+                const isTimeLetter = blessing.unlockDate ? true : false;
+
+                const blessingCard = document.createElement('div');
+                blessingCard.className = isTimeLetter ? 'blessing-card time-letter' : 'blessing-card';
+                blessingCard.setAttribute('data-aos', 'fade-up');
+
+                let dateDisplay = blessing.date;
+                if (isTimeLetter) {
+                    dateDisplay = `${blessing.date} (将在${blessing.unlockDate}解锁)`;
+                }
+
+                // 随机选择头像
+                const avatarNum = (index % 4) + 1;
+
+                blessingCard.innerHTML = `
+                    <div class="blessing-header">
+                        <div class="blessing-avatar">
+                            <img src="public/images/avatar-${avatarNum}.jpg" alt="${blessing.name}">
+                        </div>
+                        <div class="blessing-author">${blessing.name}</div>
+                        <div class="blessing-date">${dateDisplay}</div>
+                    </div>
+                    <div class="blessing-content">
+                        <p>${blessing.content}</p>
+                    </div>
+                    <div class="blessing-footer">
+                        <div class="blessing-actions">
+                            <a href="#" class="blessing-like" data-id="${blessing.id}">
+                                <i class="far fa-heart"></i> 点赞 
+                                <span class="like-count">${blessing.likes}</span>
+                            </a>
+                            <a href="#" class="blessing-comment">
+                                <i class="far fa-comment"></i> 回复
+                            </a>
+                        </div>
+                    </div>
+                `;
+
+                blessingsContainer.appendChild(blessingCard);
+            });
+
+            // 重新绑定点赞事件
+            attachLikeEvents();
+        }
+
+        // 绑定点赞事件
+        function attachLikeEvents() {
+            const likeButtons = document.querySelectorAll('.blessing-like');
+            if (likeButtons.length > 0) {
+                likeButtons.forEach(button => {
+                    button.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const blessingId = parseInt(this.getAttribute('data-id'));
+                        const blessing = websiteData.blessingData.find(b => b.id === blessingId);
+
+                        if (blessing) {
+                            blessing.likes++;
+                            // 保存到本地存储
+                            localStorage.setItem('blessingData', JSON.stringify(websiteData.blessingData));
+
+                            const likeCount = this.querySelector('.like-count');
+                            likeCount.textContent = blessing.likes;
+
+                            // 添加点赞动画效果
+                            this.querySelector('i').classList.add('liked');
+                            setTimeout(() => {
+                                this.querySelector('i').classList.remove('liked');
+                            }, 500);
+                        }
+                    });
+                });
+            }
+        }
+
+        // 页面加载完成后渲染祝福留言
+        document.addEventListener('DOMContentLoaded', function () {
+            renderBlessings();
+
+            // 添加更多祝福数据（仅为演示，实际应该从服务器加载）
+          
+
+            // 更新留言统计
+            const statsElement = document.querySelector('.blessing-stats');
+            if (statsElement) {
+                statsElement.querySelector('li:nth-child(1) strong').textContent = websiteData.blessingData.length;
+
+                // 计算总点赞数
+                const totalLikes = websiteData.blessingData.reduce((sum, blessing) => sum + blessing.likes, 0);
+                statsElement.querySelector('li:nth-child(3) strong').textContent = totalLikes;
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>微博图片测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .test-image {
+            margin-bottom: 30px;
+            border: 1px solid #eee;
+            padding: 15px;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>微博图片加载测试</h1>
+
+    <div class="test-image">
+        <h3>方法1: 直接使用 no-referrer (推荐方法)</h3>
+        <img src="/public/images/图片1.jpg" alt="微博图片测试1" referrerpolicy="no-referrer">
+        <p>完整URL + no-referrer 策略</p>
+    </div>
+
+    <div class="test-image">
+        <h3>方法2: 使用图片代理服务</h3>
+        <img src="https://images.weserv.nl/?url=https://tvax4.sinaimg.cn/large/008vtbnrly1i1hqyi2nrcj31bf0zkwmw.jpg"
+            alt="微博图片测试2">
+        <p>使用 images.weserv.nl 代理服务</p>
+    </div>
+
+    <div class="test-image">
+        <h3>方法3: 使用 JavaScript 加载</h3>
+        <div id="js-image-container"
+            style="min-height: 200px; background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
+            <span>正在加载图片...</span>
+        </div>
+        <p>JavaScript 创建 Image 对象并设置 no-referrer</p>
+    </div>
+
+    <script>
+        // 使用JavaScript加载图片
+        window.onload = function () {
+            const container = document.getElementById('js-image-container');
+            const img = new Image();
+            img.src = 'https://tvax4.sinaimg.cn/large/008vtbnrly1i1hqyi2nrcj31bf0zkwmw.jpg';
+            img.alt = '微博图片JavaScript加载测试';
+            img.style.maxWidth = '100%';
+            img.referrerPolicy = 'no-referrer';
+
+            img.onload = function () {
+                container.innerHTML = '';
+                container.appendChild(img);
+            };
+
+            img.onerror = function () {
+                container.innerHTML = '<div style="padding: 20px; text-align: center; color: red;">图片加载失败</div>';
+
+                // 尝试使用代理
+                setTimeout(() => {
+                    const proxyImg = new Image();
+                    proxyImg.src = 'https://images.weserv.nl/?url=https://tvax4.sinaimg.cn/large/008vtbnrly1i1hqyi2nrcj31bf0zkwmw.jpg';
+                    proxyImg.alt = '微博图片代理加载测试';
+                    proxyImg.style.maxWidth = '100%';
+
+                    proxyImg.onload = function () {
+                        container.innerHTML = '';
+                        container.appendChild(proxyImg);
+                        container.appendChild(document.createElement('p')).textContent = '通过代理服务成功加载';
+                    };
+
+                    proxyImg.onerror = function () {
+                        container.innerHTML = '<div style="padding: 20px; text-align: center; color: red;">所有图片加载方法均失败</div>';
+                    };
+                }, 1000);
+            };
+        };
+    </script>
+</body>
+
+</html>

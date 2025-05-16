@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们的足迹 - 毕业回忆胶囊</title>
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600&display=swap"
+        rel="stylesheet">
+    <meta name="referrer" content="no-referrer">
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="public/images/logo.png" alt="Logo" class="nav-logo">
+                <span class="site-name">毕业回忆胶囊</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gallery.html">照片墙</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="timeline.html">时光轴</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blessings.html">祝福留言</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="stories.html">我们的故事</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="videos.html">视频回顾</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="footprints.html">我们的足迹</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">关于我们</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面标题 -->
+    <div class="page-title-section">
+        <div class="container">
+            <h1 class="page-title" data-aos="fade-up">我们的足迹</h1>
+            <p class="page-description" data-aos="fade-up" data-aos-delay="200">看看同学们毕业后去了哪里</p>
+        </div>
+    </div>
+
+    <!-- 地图区域 -->
+    <section class="footprints-section">
+        <div class="container">
+            <div class="full-map-container" data-aos="zoom-in">
+                <div id="full-footprints-map"></div>
+            </div>
+
+            <div class="text-center mt-4 mb-5">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLocationModal">
+                    <i class="fas fa-map-marker-alt me-2"></i>添加我的位置
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 足迹列表 -->
+    <section class="footprints-list-section bg-light py-5">
+        <div class="container">
+            <h2 class="section-title mb-4" data-aos="fade-up">同学们的详细去向</h2>
+
+            <div class="row" id="dynamic-footprints">
+                <!-- 足迹内容将从data.js动态加载 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 添加位置模态框 -->
+    <div class="modal fade" id="addLocationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">添加我的位置</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="locationForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">姓名 (选填)</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="city" class="form-label">城市 *</label>
+                            <input type="text" class="form-control" id="city" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">一句话 (选填)</label>
+                            <input type="text" class="form-control" id="message" placeholder="eg: 在这座城市追逐梦想">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="submitLocation">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <h3>毕业回忆胶囊</h3>
+                    <p>时光不散，青春永驻</p>
+                    <p>一个永久保存我们青春回忆的地方</p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="gallery.html">照片墙</a></li>
+                        <li><a href="timeline.html">时光轴</a></li>
+                        <li><a href="blessings.html">祝福留言</a></li>
+                        <li><a href="videos.html">视频回顾</a></li>
+                        <li><a href="stories.html">我们的故事</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h3>联系我们</h3>
+                    <p>有任何问题或建议，请联系网站管理员</p>
+                    <p><i class="fas fa-envelope"></i> <span id="admin-email">admin@example.com</span></p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 毕业回忆胶囊 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" title="返回顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+    <script src="public/js/data.js"></script>
+
+    <script>
+        // 初始化AOS动画
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // 更新页面标题
+        document.title = `我们的足迹 - ${websiteData.siteTitle || '毕业回忆胶囊'}`;
+
+        // 更新管理员邮箱
+        if (websiteData.adminEmail) {
+            document.getElementById('admin-email').textContent = websiteData.adminEmail;
+        }
+
+        // 初始化足迹地图
+        function initFootprintsMap() {
+            const mapContainer = document.getElementById('full-footprints-map');
+            if (!mapContainer) return;
+
+            const myChart = echarts.init(mapContainer);
+
+            // 获取中国地图JSON数据
+            fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json')
+                .then(response => response.json())
+                .then(chinaJson => {
+                    echarts.registerMap('China', chinaJson);
+
+                    // 转换location数据为地图数据点
+                    const mapData = websiteData.locationData.map(location => {
+                        return {
+                            name: location.city,
+                            value: [location.coordinates[0], location.coordinates[1], 1],
+                            message: location.message || '',
+                            userName: location.name || '匿名同学'
+                        };
+                    });
+
+                    const option = {
+                        title: {
+                            text: '毕业生分布地图',
+                            subtext: '看看大家都去了哪里',
+                            left: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: function (params) {
+                                return `${params.data.userName}：${params.name}<br/>${params.data.message}`;
+                            }
+                        },
+                        geo: {
+                            map: 'China',
+                            roam: true,
+                            zoom: 1.2,
+                            scaleLimit: {
+                                min: 1,
+                                max: 5
+                            },
+                            itemStyle: {
+                                areaColor: '#f3f3f3',
+                                borderColor: '#ddd'
+                            },
+                            emphasis: {
+                                itemStyle: {
+                                    areaColor: '#e6f7ff'
+                                },
+                                label: {
+                                    show: true
+                                }
+                            }
+                        },
+                        series: [
+                            {
+                                name: '足迹',
+                                type: 'effectScatter',
+                                coordinateSystem: 'geo',
+                                data: mapData,
+                                symbolSize: 12,
+                                showEffectOn: 'render',
+                                rippleEffect: {
+                                    brushType: 'stroke'
+                                },
+                                hoverAnimation: true,
+                                itemStyle: {
+                                    color: '#F9713C',
+                                    shadowBlur: 10,
+                                    shadowColor: 'rgba(0, 0, 0, 0.3)'
+                                },
+                                zlevel: 1
+                            }
+                        ]
+                    };
+
+                    // 渲染地图
+                    myChart.setOption(option);
+
+                    // 窗口大小改变时，重新调整地图大小
+                    window.addEventListener('resize', function () {
+                        myChart.resize();
+                    });
+                })
+                .catch(error => {
+                    console.error('加载地图数据失败:', error);
+                    mapContainer.innerHTML = '<div class="map-error">地图加载失败，请刷新页面重试</div>';
+                });
+        }
+
+        // 渲染足迹列表
+        function renderFootprints() {
+            const footprintsContainer = document.getElementById('dynamic-footprints');
+            if (!footprintsContainer || !websiteData.locationData) return;
+
+            // 清空容器
+            footprintsContainer.innerHTML = '';
+
+            // 按城市分组
+            const locationsByCity = {};
+            websiteData.locationData.forEach(location => {
+                if (!locationsByCity[location.city]) {
+                    locationsByCity[location.city] = [];
+                }
+                locationsByCity[location.city].push(location);
+            });
+
+            // 渲染每个城市
+            Object.keys(locationsByCity).sort().forEach(city => {
+                const locations = locationsByCity[city];
+                const cityCol = document.createElement('div');
+                cityCol.className = 'col-lg-4 col-md-6 mb-4';
+                cityCol.setAttribute('data-aos', 'fade-up');
+
+                let locationsList = '';
+                locations.forEach(location => {
+                    locationsList += `
+                        <div class="location-person">
+                            <span class="location-name">${location.name || '匿名同学'}</span>
+                            <span class="location-message">${location.message || '在这里开启新的旅程'}</span>
+                        </div>
+                    `;
+                });
+
+                cityCol.innerHTML = `
+                    <div class="location-card">
+                        <div class="location-city">
+                            <i class="fas fa-map-marker-alt me-2"></i>${city}
+                            <span class="location-count">${locations.length}人</span>
+                        </div>
+                        <div class="location-list">
+                            ${locationsList}
+                        </div>
+                    </div>
+                `;
+
+                footprintsContainer.appendChild(cityCol);
+            });
+
+            // 如果没有位置数据，显示提示
+            if (websiteData.locationData.length === 0) {
+                footprintsContainer.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <p>暂无足迹数据，快来添加你的位置吧！</p>
+                    </div>
+                `;
+            }
+        }
+
+        // 处理添加位置
+        document.getElementById('submitLocation').addEventListener('click', function () {
+            const name = document.getElementById('name').value;
+            const city = document.getElementById('city').value;
+            const message = document.getElementById('message').value;
+
+            if (!city) {
+                alert('请填写城市名称');
+                return;
+            }
+
+            // 模拟获取城市坐标（实际应用中应使用地图API获取准确坐标）
+            // 这里使用随机坐标作为演示
+            const getRandomCoordinate = () => {
+                // 中国大致范围：经度73-135，纬度3-53
+                const lng = 73 + Math.random() * (135 - 73);
+                const lat = 3 + Math.random() * (53 - 3);
+                return [lng, lat];
+            };
+
+            // 使用data.js中的辅助函数添加新位置
+            websiteData.helpers.addLocation(city, getRandomCoordinate(), name, message);
+
+            // 重新渲染地图和足迹列表
+            initFootprintsMap();
+            renderFootprints();
+
+            // 关闭模态框
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addLocationModal'));
+            modal.hide();
+
+            alert('位置已成功添加！');
+
+            // 清空表单
+            document.getElementById('locationForm').reset();
+        });
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function () {
+            initFootprintsMap();
+            renderFootprints();
+        });
+
+        // 返回顶部按钮功能
+        const backToTopButton = document.getElementById('back-to-top');
+        window.addEventListener('scroll', function () {
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+
+        backToTopButton.addEventListener('click', function () {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+
+</html>

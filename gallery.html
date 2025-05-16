@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>照片墙 - 毕业回忆胶囊</title>
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600&display=swap"
+        rel="stylesheet">
+    <meta name="referrer" content="no-referrer">
+    <style>
+        /* 照片墙页面额外样式 */
+        .img-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .img-container {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .img-container img {
+            max-width: 100%;
+            max-height: 80vh;
+            border: 5px solid #fff;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            background-color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .img-caption {
+            background-color: #fff;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .img-caption h3 {
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .img-caption p {
+            margin-bottom: 0;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        body {
+            padding-top: 76px;
+        }
+
+        .page-header {
+            background-color: var(--light-color);
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .page-title {
+            margin-bottom: 1rem;
+        }
+
+        .page-description {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="public/images/logo.png" alt="Logo" class="nav-logo" id="nav-logo">
+                <span class="site-name">毕业回忆胶囊</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="gallery.html">照片墙</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="timeline.html">时光轴</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blessings.html">祝福留言</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="stories.html">我们的故事</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">关于我们</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面标题 -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title" data-aos="fade-up">照片墙</h1>
+            <p class="page-description" data-aos="fade-up" data-aos-delay="100">
+                这里收集了我们最珍贵的瞬间，每一张照片都承载着难忘的回忆。点击照片可查看大图，找到属于你的那个时刻吧！</p>
+        </div>
+    </header>
+
+    <!-- 照片墙主体 -->
+    <section class="gallery-section">
+        <div class="container">
+            <!-- 筛选按钮 -->
+            <div class="gallery-filters" data-aos="fade-up">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="graduation">毕业典礼</button>
+                <button class="filter-btn" data-filter="daily">日常生活</button>
+                <button class="filter-btn" data-filter="activity">班级活动</button>
+                <button class="filter-btn" data-filter="travel">毕业旅行</button>
+            </div>
+
+            <!-- 照片网格 -->
+            <div class="gallery-grid" data-aos="fade-up" id="dynamic-gallery">
+                <!-- 照片内容将通过JavaScript从data.js动态加载 -->
+            </div>
+
+            <!-- 上传按钮 -->
+            <div class="text-center mt-5" data-aos="fade-up">
+                <p class="mb-3">有更多珍贵照片想要分享？</p>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">上传照片</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 上传照片模态框 -->
+    <div class="modal fade" id="uploadModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">上传照片</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="uploadForm">
+                        <div class="mb-3">
+                            <label for="photoTitle" class="form-label">照片标题 *</label>
+                            <input type="text" class="form-control" id="photoTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="photoDate" class="form-label">拍摄日期 *</label>
+                            <input type="date" class="form-control" id="photoDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="photoLocation" class="form-label">拍摄地点</label>
+                            <input type="text" class="form-control" id="photoLocation">
+                        </div>
+                        <div class="mb-3">
+                            <label for="photoCategory" class="form-label">分类 *</label>
+                            <select class="form-select" id="photoCategory" required>
+                                <option value="">选择分类</option>
+                                <option value="graduation">毕业典礼</option>
+                                <option value="daily">日常生活</option>
+                                <option value="activity">班级活动</option>
+                                <option value="travel">毕业旅行</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="photoFile" class="form-label">照片文件 *</label>
+                            <input type="file" class="form-control" id="photoFile" accept="image/*" required>
+                            <small class="text-muted">支持JPG、PNG格式，最大5MB</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="photoDescription" class="form-label">照片描述</label>
+                            <textarea class="form-control" id="photoDescription" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="submitPhoto">上传</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <h3>毕业回忆胶囊</h3>
+                    <p>时光不散，青春永驻</p>
+                    <p>一个永久保存我们青春回忆的地方</p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="gallery.html">照片墙</a></li>
+                        <li><a href="timeline.html">时光轴</a></li>
+                        <li><a href="blessings.html">祝福留言</a></li>
+                        <li><a href="stories.html">我们的故事</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h3>联系我们</h3>
+                    <p>有任何问题或建议，请联系网站管理员</p>
+                    <p><i class="fas fa-envelope"></i> admin@example.com</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 毕业回忆胶囊 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" title="返回顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/js/all.min.js"></script>
+    <script src="public/js/data.js"></script>
+    <script src="public/js/main.js"></script>
+    <script>
+        // 照片上传提交
+        document.getElementById('submitPhoto').addEventListener('click', function () {
+            const title = document.getElementById('photoTitle').value;
+            const file = document.getElementById('photoFile').files[0];
+            const description = document.getElementById('photoDescription').value || '';
+            const category = document.getElementById('photoCategory').value || 'graduation';
+            const date = document.getElementById('photoDate').value;
+            const location = document.getElementById('photoLocation').value || '';
+
+            if (!title || !file || !date || !category) {
+                alert('请填写所有必填字段');
+                return;
+            }
+
+            // 构建照片描述文本
+            const fullDescription = `${date} · ${location}`;
+
+            // 在实际项目中，这里会使用FormData上传文件到服务器
+            // 现在使用data.js中的辅助函数添加照片数据
+            // 注意：这里仅添加数据，未实际上传文件
+            // 这里使用一个默认图像地址代替实际上传
+            const dummyImageUrl = 'public/images/featured-photo.jpg';
+            websiteData.helpers.addGalleryImage(title, fullDescription, dummyImageUrl, category);
+
+            // 重新渲染照片墙
+            renderGallery();
+
+            alert('照片已提交，审核通过后将显示在照片墙上');
+
+            // 关闭模态框
+            const modal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
+            modal.hide();
+
+            // 清空表单
+            document.getElementById('uploadForm').reset();
+        });
+
+        // 从data.js加载并渲染照片墙
+        function renderGallery() {
+            const galleryContainer = document.getElementById('dynamic-gallery');
+            if (!galleryContainer || !websiteData.galleryData) return;
+
+            // 清空容器
+            galleryContainer.innerHTML = '';
+
+            // 添加照片项
+            websiteData.galleryData.forEach(photo => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.setAttribute('data-category', photo.category);
+
+                galleryItem.innerHTML = `
+                    <img src="${photo.imageUrl}" alt="${photo.title}" class="gallery-img">
+                    <div class="gallery-info">
+                        <h3>${photo.title}</h3>
+                        <p>${photo.description}</p>
+                    </div>
+                `;
+
+                galleryContainer.appendChild(galleryItem);
+            });
+
+            // 更新筛选功能
+            updateFilters();
+
+            // 添加照片点击查看大图功能
+            addGalleryImageClickHandlers();
+        }
+
+        // 添加照片点击查看大图功能
+        function addGalleryImageClickHandlers() {
+            const galleryImages = document.querySelectorAll('.gallery-item');
+            if (galleryImages.length > 0) {
+                galleryImages.forEach(image => {
+                    image.addEventListener('click', function () {
+                        const imgSrc = this.querySelector('img').getAttribute('src');
+                        const imgTitle = this.querySelector('h3') ? this.querySelector('h3').textContent : '';
+                        const imgDesc = this.querySelector('p') ? this.querySelector('p').textContent : '';
+
+                        // 创建大图查看层
+                        const overlay = document.createElement('div');
+                        overlay.className = 'img-overlay';
+
+                        const imgContainer = document.createElement('div');
+                        imgContainer.className = 'img-container';
+
+                        const closeBtn = document.createElement('button');
+                        closeBtn.className = 'close-btn';
+                        closeBtn.innerHTML = '&times;';
+
+                        const img = document.createElement('img');
+                        img.src = imgSrc;
+
+                        const caption = document.createElement('div');
+                        caption.className = 'img-caption';
+                        caption.innerHTML = `<h3>${imgTitle}</h3><p>${imgDesc}</p>`;
+
+                        imgContainer.appendChild(closeBtn);
+                        imgContainer.appendChild(img);
+                        imgContainer.appendChild(caption);
+                        overlay.appendChild(imgContainer);
+                        document.body.appendChild(overlay);
+
+                        // 禁止滚动
+                        document.body.style.overflow = 'hidden';
+
+                        // 点击关闭
+                        closeBtn.addEventListener('click', function () {
+                            document.body.removeChild(overlay);
+                            document.body.style.overflow = 'auto';
+                        });
+
+                        // 点击遮罩层关闭
+                        overlay.addEventListener('click', function (e) {
+                            if (e.target === overlay) {
+                                document.body.removeChild(overlay);
+                                document.body.style.overflow = 'auto';
+                            }
+                        });
+                    });
+                });
+            }
+        }
+
+        // 更新筛选按钮
+        function updateFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            if (filterButtons.length > 0 && galleryItems.length > 0) {
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        // 移除所有按钮的active类
+                        filterButtons.forEach(btn => btn.classList.remove('active'));
+                        // 添加当前按钮的active类
+                        button.classList.add('active');
+
+                        const filter = button.getAttribute('data-filter');
+
+                        galleryItems.forEach(item => {
+                            if (filter === 'all') {
+                                item.style.display = 'block';
+                            } else {
+                                if (item.getAttribute('data-category') === filter) {
+                                    item.style.display = 'block';
+                                } else {
+                                    item.style.display = 'none';
+                                }
+                            }
+                        });
+                    });
+                });
+            }
+        }
+
+        // 页面加载完成后渲染照片墙
+        document.addEventListener('DOMContentLoaded', function () {
+            renderGallery();
+        });
+    </script>
+</body>
+
+</html>
