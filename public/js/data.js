@@ -6,7 +6,7 @@
 // 网站配置
 const siteConfig = {
     // 毕业日期设置
-    graduationDate: '2025-06-20',
+    graduationDate: '',
 
     // 网站标题
     siteTitle: '时光不散，青春永驻 - 毕业回忆胶囊',
