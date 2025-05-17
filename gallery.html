@@ -302,22 +302,44 @@
         // 从data.js加载并渲染照片墙
         function renderGallery() {
             const galleryContainer = document.getElementById('dynamic-gallery');
-            if (!galleryContainer || !websiteData.galleryData) return;
+            if (!galleryContainer) return;
+
+            if (!websiteData || !websiteData.galleryData) {
+                console.log('[Gallery HTML] 无法渲染照片墙：数据不存在');
+                galleryContainer.innerHTML = '<div class="text-center p-5"><p>照片数据不可用</p></div>';
+                return;
+            }
+
+            console.log('[Gallery HTML] 开始渲染照片墙，共有 ' + websiteData.galleryData.length + ' 张照片');
 
             // 清空容器
             galleryContainer.innerHTML = '';
 
+            // 对图片数据按照id排序
+            const sortedGalleryData = [...websiteData.galleryData].sort((a, b) => a.id - b.id);
+
+            if (sortedGalleryData.length === 0) {
+                galleryContainer.innerHTML = '<div class="text-center p-5"><p>未找到任何照片，请检查图片路径或上传新照片。</p></div>';
+                return;
+            }
+
             // 添加照片项
-            websiteData.galleryData.forEach(photo => {
+            sortedGalleryData.forEach(photo => {
                 const galleryItem = document.createElement('div');
                 galleryItem.className = 'gallery-item';
                 galleryItem.setAttribute('data-category', photo.category);
+                // 设置图片ID为属性，方便调试
+                galleryItem.setAttribute('data-image-id', photo.id);
+
+                // 构建标题和描述内容
+                const title = photo.title || `照片 ${photo.id}`;
+                const description = photo.description || '';
 
                 galleryItem.innerHTML = `
-                    <img src="${photo.imageUrl}" alt="${photo.title}" class="gallery-img">
+                    <img src="${photo.imageUrl}" alt="${title}" class="gallery-img">
                     <div class="gallery-info">
-                        <h3>${photo.title}</h3>
-                        <p>${photo.description}</p>
+                        <h3>${title}</h3>
+                        <p>${description}</p>
                     </div>
                 `;
 
@@ -419,7 +441,42 @@
 
         // 页面加载完成后渲染照片墙
         document.addEventListener('DOMContentLoaded', function () {
-            renderGallery();
+            console.log('[Gallery HTML] 页面加载完成，尝试渲染照片墙');
+
+            // 检查是否已经有图片数据
+            if (websiteData && websiteData.galleryData && websiteData.galleryData.length > 0) {
+                console.log('[Gallery HTML] 发现已有图片数据，立即渲染');
+                renderGallery();
+            } else {
+                console.log('[Gallery HTML] 等待图片数据准备完成...');
+                // 添加一个加载指示器
+                const galleryContainer = document.getElementById('dynamic-gallery');
+                if (galleryContainer) {
+                    galleryContainer.innerHTML = '<div class="text-center p-5"><p>正在加载照片...</p></div>';
+                }
+            }
+
+            // 监听galleryDataReady事件，在数据准备好后渲染
+            document.addEventListener('galleryDataReady', function () {
+                console.log('[Gallery HTML] 收到图片数据准备完成事件，开始渲染');
+                renderGallery();
+            });
+
+            // 监听galleryImagesVerified事件，在图片验证完成后更新显示
+            document.addEventListener('galleryImagesVerified', function (event) {
+                console.log(`[Gallery HTML] 图片验证完成，共有 ${event.detail.verifiedImages} 张有效照片`);
+
+                // 重新渲染照片墙，这次只会显示实际存在的照片
+                renderGallery();
+
+                // 如果没有找到任何照片，显示友好的提示信息
+                if (event.detail.verifiedImages === 0) {
+                    const galleryContainer = document.getElementById('dynamic-gallery');
+                    if (galleryContainer) {
+                        galleryContainer.innerHTML = '<div class="text-center p-5"><p>未找到任何照片，请检查图片路径或上传新照片。</p></div>';
+                    }
+                }
+            });
         });
     </script>
 </body>

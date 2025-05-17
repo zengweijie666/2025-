@@ -25,20 +25,10 @@ let locationData = [
 ];
 
 // 照片墙数据
-// 照片墙数据
 let galleryData = [];
 
-for (let i = 1; i <= 36; i++) {
-    const newImage = {
-        id: i,
-        title: '', // title字段留空
-        description: '', // description字段留空
-        imageUrl: `public/images/图片${i}.jpg`,
-        category: 'graduation'
-    };
-
-    galleryData.push(newImage);
-}
+// 不再使用固定的连续编号方式初始化照片
+// 加载照片将在页面加载时通过scanForImages函数动态完成
 
 // 视频数据
 let videoData = [
@@ -62,7 +52,7 @@ let blessingData = [
     //     likes: 42,
     //     isTimeLetter: false
     // },
-   
+
 ];
 
 // 时光轴数据
@@ -274,11 +264,16 @@ function renderGallery() {
     // 清空容器
     galleryContainer.innerHTML = '';
 
+    // 对图片数据按照id排序
+    const sortedGalleryData = [...websiteData.galleryData].sort((a, b) => a.id - b.id);
+
     // 添加照片项
-    websiteData.galleryData.forEach(photo => {
+    sortedGalleryData.forEach(photo => {
         const galleryItem = document.createElement('div');
         galleryItem.className = 'gallery-item';
         galleryItem.setAttribute('data-category', photo.category);
+        // 添加图片ID作为属性，方便调试
+        galleryItem.setAttribute('data-image-id', photo.id);
 
         // 确保图片URL是完整的
         const fixedImageUrl = fixImageUrl(photo.imageUrl);
@@ -394,5 +389,129 @@ function updateAllImageUrls() {
     console.log('[Data] 所有图片URL已更新为完整链接');
 }
 
-// 在文档加载时更新所有图片URL
-document.addEventListener('DOMContentLoaded', updateAllImageUrls); 
+// 动态扫描并加载图片
+function scanForImages() {
+    console.log('[Gallery] 开始初始化照片数据');
+
+    // 清空当前galleryData
+    galleryData = [];
+
+    // 在浏览器环境中，我们无法直接扫描服务器上的文件夹
+    // 所以我们使用一个预设的照片数组来初始化
+    // 这个数组包含可能存在的所有照片编号
+    const possiblePhotos = [
+        // 在实际环境中，这里会根据实际情况动态生成
+        // 现在我们假设有36张照片，但也可能有些编号不存在
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+        11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+        31, 32, 33, 34, 35, 36
+    ];
+
+    // 记录照片加载的计数和状态
+    let loadedCount = 0;
+    let totalToCheck = possiblePhotos.length;
+
+    // 为每个可能的照片编号创建一个照片对象
+    possiblePhotos.forEach(id => {
+        const imgPath = `public/images/图片${id}.jpg`;
+
+        // 直接创建照片对象并添加到galleryData
+        const newImage = {
+            id: id,
+            title: '',
+            description: '',
+            imageUrl: imgPath,
+            category: 'graduation',
+            // 添加一个标志，指示这张照片是否已验证存在
+            verified: false
+        };
+
+        galleryData.push(newImage);
+    });
+
+    // 排序galleryData，确保按ID顺序
+    galleryData.sort((a, b) => a.id - b.id);
+
+    // 更新websiteData中的galleryData
+    websiteData.galleryData = [...galleryData];
+
+    console.log(`[Gallery] 初始化了 ${galleryData.length} 个照片对象`);
+
+    // 触发自定义事件，通知页面照片数据已准备好
+    const event = new CustomEvent('galleryDataReady');
+    document.dispatchEvent(event);
+
+    // 在后台验证每张照片是否真实存在
+    setTimeout(() => {
+        verifyImages();
+    }, 100);
+}
+
+// 验证图片是否存在
+function verifyImages() {
+    console.log('[Gallery] 开始验证照片是否存在');
+
+    let verifiedCount = 0;
+    let pendingVerifications = galleryData.length;
+
+    galleryData.forEach((photo, index) => {
+        const img = new Image();
+
+        img.onload = function () {
+            // 照片存在
+            photo.verified = true;
+            verifiedCount++;
+            pendingVerifications--;
+
+            console.log(`[Gallery] 照片ID ${photo.id} 已验证存在`);
+
+            checkIfVerificationComplete();
+        };
+
+        img.onerror = function () {
+            // 照片不存在，标记为移除
+            photo.shouldRemove = true;
+            pendingVerifications--;
+
+            console.log(`[Gallery] 照片ID ${photo.id} 不存在`);
+
+            checkIfVerificationComplete();
+        };
+
+        // 开始加载图片
+        img.src = photo.imageUrl;
+    });
+
+    function checkIfVerificationComplete() {
+        if (pendingVerifications === 0) {
+            console.log(`[Gallery] 所有照片验证完成，共有 ${verifiedCount} 张照片存在`);
+
+            // 过滤掉不存在的照片
+            galleryData = galleryData.filter(photo => !photo.shouldRemove);
+
+            // 更新websiteData中的galleryData
+            websiteData.galleryData = [...galleryData];
+
+            // 触发照片验证完成事件
+            const event = new CustomEvent('galleryImagesVerified', {
+                detail: {
+                    totalImages: galleryData.length,
+                    verifiedImages: verifiedCount
+                }
+            });
+            document.dispatchEvent(event);
+        }
+    }
+}
+
+// 添加统一的DOMContentLoaded事件处理
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('[App] 页面已加载，初始化数据');
+
+    // 首先更新所有图片URL
+    updateAllImageUrls();
+
+    // 然后扫描并加载图片
+    scanForImages();
+}); 
